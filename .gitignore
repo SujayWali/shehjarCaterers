@@ -1,0 +1,39 @@
+# Node
+node_modules/
+
+# Next.js
+.next/
+
+# Env
+.env*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Build
+out/
+dist/
+
+# Misc
+*.swp
+*.swo
+
+# Coverage
+coverage/
+
+# Firebase
+firebase-debug.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Others
+*.docx
+*.pdf
