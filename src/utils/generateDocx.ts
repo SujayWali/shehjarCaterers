@@ -99,23 +99,86 @@ export async function generateDocx(base: Omit<MenuDoc, 'id'>) {
         (h) =>
           new TableCell({
             children: [
-              new Paragraph({ children: [new TextRun({ text: h, bold: true })] }),
+              new Paragraph({
+                alignment: AlignmentType.CENTER,
+                children: [
+                  new TextRun({ text: h, bold: true, font: 'Times New Roman', size: 24 })
+                ]
+              })
             ],
             margins: { top: 100, bottom: 100, left: 100, right: 100 },
           })
       ),
     });
 
-    const bodyRows: TableRow[] = group.map((r) => {
-      return new TableRow({
-        children: [
-          new TableCell({ children: [new Paragraph({ children: [new TextRun(date)] })] }),
-          new TableCell({ children: [new Paragraph({ children: [new TextRun(r.particulars)] })] }),
-          new TableCell({ children: cellParagraphs(r.menu) }),
-          new TableCell({ children: [new Paragraph({ children: [new TextRun(r.time)] })] }),
-          new TableCell({ children: [new Paragraph({ children: [new TextRun(String(r.numPersons))] })] }),
-        ],
-      });
+    const span = group.length;
+    const bodyRows: TableRow[] = [];
+    group.forEach((r, idx) => {
+      const cells: TableCell[] = [];
+      if (idx === 0) {
+        cells.push(
+          new TableCell({
+            children: [
+              new Paragraph({
+                alignment: AlignmentType.CENTER,
+                children: [new TextRun({ text: date, font: 'Times New Roman', size: 24 })]
+              })
+            ],
+            rowSpan: span,
+          })
+        );
+      }
+      // Particulars cell: center, bold, Times New Roman, size 12
+      cells.push(
+        new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [
+                new TextRun({ text: r.particulars, bold: true, font: 'Times New Roman', size: 24 })
+              ]
+            })
+          ]
+        })
+      );
+      // Menu cell: Times New Roman, size 11, spacing below
+      const menuLines = (r.menu ?? '').split(/\r?\n/).filter(l => l.trim() !== '');
+      const menuParagraphs = menuLines.length
+        ? menuLines.map((line, i, arr) =>
+            new Paragraph({
+              children: [new TextRun({ text: line, font: 'Times New Roman', size: 22 })],
+              spacing: i === arr.length - 1 ? { after: 200 } : undefined
+            })
+          )
+        : [new Paragraph({ children: [new TextRun({ text: '—', font: 'Times New Roman', size: 22 })] })];
+      cells.push(
+        new TableCell({
+          children: menuParagraphs
+        })
+      );
+      // Time cell: center
+      cells.push(
+        new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: r.time || '', font: 'Times New Roman', size: 22 })]
+            })
+          ]
+        })
+      );
+      // No. of persons cell: center
+      cells.push(
+        new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: r.numPersons === 0 ? '' : String(r.numPersons), font: 'Times New Roman', size: 22 })]
+            })
+          ]
+        })
+      );
+      bodyRows.push(new TableRow({ children: cells }));
     });
 
     const table = new Table({

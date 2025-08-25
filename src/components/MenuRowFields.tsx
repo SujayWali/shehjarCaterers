@@ -33,7 +33,7 @@ export function MenuRowFields() {
           </Grid>
           <Grid item xs={12} sm={1.5 as any}>
             <Controller name={`rows.${idx}.numPersons`} control={control} render={({ field }) => (
-              <TextField {...field} type="number" label="No. of persons" fullWidth />
+              <TextField {...field} type="number" label="No. of persons" fullWidth inputProps={{ min: 0 }} />
             )}/>
           </Grid>
           <Grid item xs={12} sm={0.5 as any}>

@@ -17,8 +17,8 @@ const schema = yup.object({
     date: yup.string().required(),
     particulars: yup.string().required(),
     menu: yup.string().required(),
-    time: yup.string().required(),
-    numPersons: yup.number().min(1).required(),
+    time: yup.string().optional(),
+    numPersons: yup.number().min(0).required(),
   })).min(1).required(),
 }).required();
 

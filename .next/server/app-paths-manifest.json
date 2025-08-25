@@ -1,6 +1,5 @@
 {
   "/menus/new/page": "app/menus/new/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/menus/page": "app/menus/page.js",
-  "/api/send-whatsapp/route": "app/api/send-whatsapp/route.js"
+  "/menus/page": "app/menus/page.js"
 }
