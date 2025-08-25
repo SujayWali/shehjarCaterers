@@ -2,13 +2,13 @@
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { useEffect, useState } from 'react';
-import { Button, Link as MuiLink, Stack, Typography, Modal, Box, Paper } from '@mui/material';
+import { Button, Link as MuiLink, Stack, Typography, Modal, Box, Paper, TextField } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { MenuRowFields } from '@/components/MenuRowFields';
 // MenuRowFields already updated to handle dd-mm-yyyy format for date field
-import { updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { updateDoc, doc, deleteDoc, addDoc } from 'firebase/firestore';
 import { deleteObject, ref as storageRef } from 'firebase/storage';
 import { storage } from '@/lib/firebase';
 import { generateDocx } from '@/utils/generateDocx';
@@ -226,9 +226,45 @@ export default function MenusPage() {
                   maxHeight: { xs: '50vh', md: '55vh' },
                 }}
               >
+                <TextField
+                  label="Client Name"
+                  {...methods.register('clientName')}
+                  sx={{ mb: 2 }}
+                  fullWidth
+                />
                 <MenuRowFields />
               </Paper>
               <Button type="submit" variant="contained" fullWidth sx={{ mt: 1 }}>Save Changes</Button>
+              <Button
+                variant="outlined"
+                fullWidth
+                sx={{ mt: 1 }}
+                onClick={methods.handleSubmit(async (data) => {
+                  if (!editMenu) return;
+                  // Create new menu with edited data
+                  const base = {
+                    userId: editMenu.userId,
+                    clientName: data.clientName,
+                    rows: data.rows.map(r => ({ ...r, time: r.time ?? '' })),
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                  };
+                  const docRef = await addDoc(collection(db, 'menus'), base as any);
+                  const { blob, filename } = await generateDocx(base);
+                  const { url } = await saveMenuToStorage({
+                    userId: editMenu.userId,
+                    menuId: docRef.id,
+                    blob,
+                    filename,
+                    contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                  });
+                  await updateDoc(doc(db, 'menus', docRef.id), {
+                    docxUrl: url,
+                    updatedAt: Date.now(),
+                  });
+                  setEditOpen(false);
+                })}
+              >Save As New Menu</Button>
             </form>
           </FormProvider>
         </Box>
