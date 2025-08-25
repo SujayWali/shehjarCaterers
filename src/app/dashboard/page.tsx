@@ -1,16 +1,54 @@
 'use client';
 import Link from 'next/link';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Box } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export default function Dashboard() {
   return (
-    <Stack gap={2} sx={{ p: 3 }}>
-      <Typography variant="h5">Dashboard</Typography>
-      <Stack direction="row" gap={2} flexWrap="wrap">
-        <Button component={Link} href="/menus/new" variant="contained">Create New Menu</Button>
-        <Button component={Link} href="/menus" variant="outlined">My Menus</Button>
-        <Button component={Link} href="/upload" variant="outlined">Upload Existing</Button>
+    <Box sx={{ p: { xs: 1.5, sm: 3 }, maxWidth: 500, mx: 'auto' }}>
+      <Typography variant="h5" mb={3} textAlign="center">Dashboard</Typography>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        gap={2}
+        alignItems="stretch"
+        justifyContent="center"
+      >
+        {[{
+          label: 'Create New Menu',
+          href: '/menus/new',
+          icon: <AddCircleIcon />,
+        }, {
+          label: 'My Menus',
+          href: '/menus',
+          icon: <ListAltIcon />,
+        }, {
+          label: 'Upload Existing',
+          href: '/upload',
+          icon: <CloudUploadIcon />,
+        }].map(btn => (
+          <Button
+            key={btn.label}
+            component={Link}
+            href={btn.href}
+            variant="contained"
+            startIcon={btn.icon}
+            sx={{
+              minWidth: 180,
+              fontSize: { xs: '1rem', sm: '1.1rem' },
+              py: 2,
+              backgroundColor: 'primary.main',
+              color: 'white',
+              transition: 'background 0.2s',
+              '&:hover': { backgroundColor: 'primary.dark' },
+              '&:active': { backgroundColor: 'primary.light' },
+            }}
+          >
+            {btn.label}
+          </Button>
+        ))}
       </Stack>
-    </Stack>
+    </Box>
   );
 }

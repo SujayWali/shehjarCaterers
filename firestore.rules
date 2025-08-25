@@ -1,8 +1,14 @@
 rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /menus/{userId}/{menuId}/{fileName} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /menus/{menuId} {
+      // allow creating your own menu
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid;
+
+      // allow reading/updating/deleting your own menu
+      allow read, update, delete: if request.auth != null
+                    && request.auth.uid == resource.data.userId;
     }
   }
 }

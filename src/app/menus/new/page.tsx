@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Stack, TextField, Button, Typography, Paper } from '@mui/material';
+import { Stack, TextField, Button, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress } from '@mui/material';
 import { MenuRowFields } from '@/components/MenuRowFields';
 import { MenuDoc } from '@/types/menu';
 import { auth, db } from '@/lib/firebase';
@@ -30,18 +30,23 @@ export default function NewMenuPage() {
   });
   const [error, setError] = React.useState<string | null>(null);
   const [lastMenu, setLastMenu] = React.useState<{ url: string; filename: string; clientName: string } | null>(null);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogMsg, setDialogMsg] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (data: any) => {
-    console.log('currentUser uid =', auth.currentUser?.uid);
-
-    const user = auth.currentUser;
-    if (!user) {
-      setError('You must be logged in to generate and save a menu.');
-      return;
-    }
-
+    setLoading(true);
     setError(null);
+    setDialogMsg('');
     try {
+      const user = auth.currentUser;
+      if (!user) {
+        setError('You must be logged in to generate and save a menu.');
+        setDialogMsg('You must be logged in to generate and save a menu.');
+        setDialogOpen(true);
+        setLoading(false);
+        return;
+      }
       const base: Omit<MenuDoc, 'id'> = {
         userId: user.uid,
         clientName: data.clientName,
@@ -49,14 +54,8 @@ export default function NewMenuPage() {
         createdAt: Date.now(),
         updatedAt: Date.now(),
       };
-      console.log('Menu base:', base);
-
       const docRef = await addDoc(collection(db, 'menus'), base as any);
-      console.log('Firestore docRef:', docRef.id);
-
       const { blob, filename } = await generateDocx(base);
-      console.log('DOCX generated:', filename, blob);
-
       const { url } = await saveMenuToStorage({
         userId: user.uid,
         menuId: docRef.id,
@@ -64,41 +63,44 @@ export default function NewMenuPage() {
         filename,
         contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       });
-      console.log('DOCX uploaded to Storage:', url);
-
       await (await import('firebase/firestore')).updateDoc(
         (await import('firebase/firestore')).doc(db, 'menus', docRef.id),
         { docxUrl: url, updatedAt: Date.now() }
       );
-      console.log('Firestore doc updated with docxUrl');
-
       setLastMenu({ url, filename, clientName: data.clientName });
-      alert('Menu DOCX created and uploaded!');
+      setDialogMsg('Menu DOCX created and uploaded!');
+      setDialogOpen(true);
     } catch (err: any) {
-      console.error('Error in menu creation:', err);
       setError(err?.message || 'An unexpected error occurred.');
-      alert('Error: ' + (err?.message || 'An unexpected error occurred.'));
+      setDialogMsg('Error: ' + (err?.message || 'An unexpected error occurred.'));
+      setDialogOpen(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Stack alignItems="center" sx={{ p: 2 }}>
-      <Paper sx={{ p: 3, width: 'min(1100px, 100%)' }}>
-        <Typography variant="h5" gutterBottom>Create New Menu</Typography>
+    <Stack alignItems="center" sx={{ p: { xs: 1, sm: 2 } }}>
+  <Paper sx={{ p: { xs: 2, sm: 3 }, width: { xs: '100%', sm: 800, md: 1200 }, maxWidth: '98vw' }}>
+        <Typography variant="h5" gutterBottom textAlign="center">Create New Menu</Typography>
         {error && (
           <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>
         )}
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <Stack gap={2}>
-              <TextField label="Client Name (Cover Page)" {...methods.register('clientName')} />
+              <TextField label="Client Name (Cover Page)" {...methods.register('clientName')} fullWidth />
               <MenuRowFields />
-              <Button type="submit" variant="contained">Generate & Save</Button>
+              <Button type="submit" variant="contained" disabled={loading} fullWidth>
+                {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Generate & Save'}
+              </Button>
               {lastMenu && (
                 <Button
                   variant="outlined"
                   sx={{ mt: 2 }}
+                  fullWidth
                   onClick={async () => {
+                    setLoading(true);
                     try {
                       const resp = await fetch('/api/send-whatsapp', {
                         method: 'POST',
@@ -106,9 +108,14 @@ export default function NewMenuPage() {
                         body: JSON.stringify({ link: lastMenu.url, filename: lastMenu.filename, caption: `Menu for ${lastMenu.clientName}` }),
                       });
                       if (!resp.ok) throw new Error('Failed to send WhatsApp message');
-                      alert('Sent on WhatsApp!');
+                      setDialogMsg('Sent on WhatsApp!');
+                      setDialogOpen(true);
                     } catch (err: any) {
                       setError(err?.message || 'An unexpected error occurred.');
+                      setDialogMsg('Error: ' + (err?.message || 'An unexpected error occurred.'));
+                      setDialogOpen(true);
+                    } finally {
+                      setLoading(false);
                     }
                   }}
                 >Send on WhatsApp</Button>
@@ -117,6 +124,15 @@ export default function NewMenuPage() {
           </form>
         </FormProvider>
       </Paper>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Status</DialogTitle>
+        <DialogContent>
+          <Typography>{dialogMsg}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)}>OK</Button>
+        </DialogActions>
+      </Dialog>
     </Stack>
   );
 }

@@ -29,13 +29,13 @@ export default function UploadPage() {
   };
 
   return (
-    <Stack alignItems="center" sx={{ p:2 }}>
-      <Paper sx={{ p:3, width: 480 }}>
-        <Typography variant="h5" gutterBottom>Upload Existing Menu</Typography>
+    <Stack alignItems="center" sx={{ p: { xs: 1, sm: 2 } }}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, width: { xs: '100%', sm: 400, md: 600 }, maxWidth: '98vw' }}>
+        <Typography variant="h5" gutterBottom textAlign="center">Upload Existing Menu</Typography>
         <Stack gap={2}>
-          <TextField label="Client Name" value={clientName} onChange={e=>setClientName(e.target.value)} />
-          <input type="file" accept=".doc,.docx,.pdf" onChange={(e)=>setFile(e.target.files?.[0] || null)} />
-          <Button variant="contained" onClick={onUpload}>Upload</Button>
+          <TextField label="Client Name" value={clientName} onChange={e=>setClientName(e.target.value)} fullWidth />
+          <input type="file" accept=".doc,.docx,.pdf" onChange={(e)=>setFile(e.target.files?.[0] || null)} style={{ width: '100%' }} />
+          <Button variant="contained" onClick={onUpload} fullWidth>Upload</Button>
         </Stack>
       </Paper>
     </Stack>

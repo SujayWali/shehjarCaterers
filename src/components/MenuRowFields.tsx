@@ -12,9 +12,36 @@ export function MenuRowFields() {
       {fields.map((f, idx) => (
         <Grid container spacing={2} key={f.id} sx={{ mb: 1 }}>
           <Grid item xs={12} sm={2}>
-            <Controller name={`rows.${idx}.date`} control={control} render={({ field }) => (
-              <TextField {...field} label="Date (YYYY-MM-DD)" fullWidth />
-            )}/>
+            <Controller
+              name={`rows.${idx}.date`}
+              control={control}
+              render={({ field }) => {
+                // Convert dd-mm-yyyy to yyyy-mm-dd for input value
+                let inputValue = '';
+                if (field.value && field.value.length === 10 && field.value.includes('-')) {
+                  const [dd, mm, yyyy] = field.value.split('-');
+                  inputValue = `${yyyy}-${mm}-${dd}`;
+                }
+                return (
+                  <TextField
+                    label="Date"
+                    type="date"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    value={inputValue}
+                    onChange={e => {
+                      const raw = e.target.value; // yyyy-mm-dd
+                      if (raw && raw.length === 10) {
+                        const formatted = `${raw.slice(8,10)}-${raw.slice(5,7)}-${raw.slice(0,4)}`;
+                        field.onChange(formatted);
+                      } else {
+                        field.onChange(raw);
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
           </Grid>
           <Grid item xs={12} sm={3}>
             <Controller name={`rows.${idx}.particulars`} control={control} render={({ field }) => (
