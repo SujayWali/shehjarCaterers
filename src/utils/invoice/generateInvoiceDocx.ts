@@ -47,8 +47,8 @@ const boxBorders = {
 } as const;
 
 // ---- tiny helpers ----
-const run = (text: string, opts: Partial<TextRun> = {}) =>
-  new TextRun({ text, ...opts });
+const run = (text: string, opts: { bold?: boolean; size?: number } = {}) =>
+  new TextRun({ text, bold: opts.bold, size: opts.size });
 
 const para = (
   text: string,
