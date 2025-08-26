@@ -43,8 +43,11 @@ export default function InvoicesListPage() {
           return;
         }
       }
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  setRows(data.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0)));
+      const data = snap.docs.map(doc => {
+        const d = doc.data();
+        return { id: doc.id, ...d, createdAt: d.createdAt ?? 0 };
+      });
+      setRows(data.sort((a, b) => b.createdAt - a.createdAt));
       setLoading(false);
     }
     fetchInvoices();
