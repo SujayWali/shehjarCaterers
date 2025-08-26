@@ -52,7 +52,7 @@ const run = (text: string, opts: Partial<TextRun> = {}) =>
 
 const para = (
   text: string,
-  opts: { align?: AlignmentType; bold?: boolean; size?: number } = {}
+  opts: { align?: any; bold?: boolean; size?: number } = {}
 ) =>
   new Paragraph({
     alignment: opts.align ?? AlignmentType.LEFT,
