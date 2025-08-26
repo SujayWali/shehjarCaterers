@@ -1,16 +1,20 @@
 {
-  "app\\menus\\new\\page.tsx -> firebase/firestore": {
-    "id": "app\\menus\\new\\page.tsx -> firebase/firestore",
-    "files": []
-  },
-  "app\\menus\\page.tsx -> @/utils/generatePdf": {
-    "id": "app\\menus\\page.tsx -> @/utils/generatePdf",
+  "app\\quotations\\page.tsx -> @/utils/generateQuotationDocx": {
+    "id": "app\\quotations\\page.tsx -> @/utils/generateQuotationDocx",
     "files": [
-      "static/chunks/_app-pages-browser_src_utils_generatePdf_ts.js"
+      "static/chunks/_app-pages-browser_src_utils_generateQuotationDocx_ts.js"
     ]
   },
-  "app\\upload\\page.tsx -> firebase/firestore": {
-    "id": "app\\upload\\page.tsx -> firebase/firestore",
-    "files": []
+  "app\\quotations\\page.tsx -> @/utils/generateQuotationPdf": {
+    "id": "app\\quotations\\page.tsx -> @/utils/generateQuotationPdf",
+    "files": [
+      "static/chunks/_app-pages-browser_src_utils_generateQuotationPdf_ts.js"
+    ]
+  },
+  "components\\RichTextEditor.tsx -> react-quill": {
+    "id": "components\\RichTextEditor.tsx -> react-quill",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_react-quill_lib_index_js.js"
+    ]
   }
 }

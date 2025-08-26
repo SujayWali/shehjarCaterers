@@ -10,5 +10,14 @@ service cloud.firestore {
       allow read, update, delete: if request.auth != null
                     && request.auth.uid == resource.data.userId;
     }
+
+    match /quotations/{quotationId} {
+      // allow anyone to read quotations
+      allow read: if true;
+      // allow creating your own quotation
+      allow create: if request.auth != null;
+      // allow updating/deleting your own quotation
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
   }
 }

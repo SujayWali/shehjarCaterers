@@ -15,7 +15,8 @@ import {
 } from 'docx';
 import { MenuDoc } from '@/types/menu';
 
-const CONTACT_LINE =
+
+export const CONTACT_LINE =
   'MOBILE: 9810421233, 7018227126,  EMAIL: shehjarcaterers@gmail.com';
 
 function cellParagraphs(text: string) {

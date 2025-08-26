@@ -27,6 +27,10 @@ export default function Dashboard() {
           label: 'Upload Existing',
           href: '/upload',
           icon: <CloudUploadIcon />,
+        }, {
+          label: 'Quotations',
+          href: '/quotations',
+          icon: <ListAltIcon />,
         }].map(btn => (
           <Button
             key={btn.label}
