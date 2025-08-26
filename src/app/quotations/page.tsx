@@ -43,11 +43,11 @@ export default function QuotationsPage() {
   }, []);
 
   return (
-    <Stack sx={{ p: 3 }} gap={2}>
+  <Stack sx={{ p: { xs: 1, sm: 3 } }} gap={2}>
       <Typography variant="h5">Quotations</Typography>
       {/* List quotations */}
       {items.map((it) => (
-        <Stack key={it.id} direction={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" sx={{ border: '1px solid #eee', p: 2, borderRadius: 2, mb: 2 }}>
+        <Stack key={it.id} direction={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" sx={{ border: '1px solid #eee', p: { xs: 1, sm: 2 }, borderRadius: 2, mb: 2, overflowX: 'auto' }}>
           <Box flex={1} sx={{ minWidth: 0 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
               <Box>
@@ -65,10 +65,10 @@ export default function QuotationsPage() {
               <div dangerouslySetInnerHTML={{ __html: it.description }} />
             </Box>
             <Typography variant="body1" align="center" fontWeight={600} color="success.main" mb={1}>
-              Total Estimated Cost = {it.totalCost}
+              Total Estimated Cost = Rs.{it.totalCost}/-
             </Typography>
           </Box>
-          <Stack direction="column" gap={1}>
+          <Stack direction={{ xs: 'row', sm: 'column' }} gap={1} sx={{ flexWrap: { xs: 'wrap', sm: 'nowrap' }, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
             <Button variant="contained" onClick={async () => {
               const { generateQuotationDocx } = await import('@/utils/generateQuotationDocx');
               const base = {
@@ -116,7 +116,7 @@ export default function QuotationsPage() {
           </Stack>
         </Stack>
       ))}
-      <Button variant="contained" onClick={() => {
+      <Button variant="contained" sx={{ width: { xs: '100%', sm: 'auto' } }} onClick={() => {
         setEditQuotation(null);
         methods.reset({ date: '', description: '', totalCost: '' });
         setEditOpen(true);
@@ -128,10 +128,10 @@ export default function QuotationsPage() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: '95vw', sm: 500, md: 700 },
-            maxHeight: { xs: '90vh', md: '80vh' },
+            width: { xs: '98vw', sm: 500, md: 700 },
+            maxHeight: { xs: '95vh', md: '80vh' },
             bgcolor: 'background.paper',
-            p: { xs: 1.5, sm: 3 },
+            p: { xs: 1, sm: 3 },
             borderRadius: 2,
             boxShadow: 3,
             overflow: 'auto',
@@ -200,7 +200,7 @@ export default function QuotationsPage() {
                   )}
                 />
               </Paper>
-              <Button type="submit" variant="contained" fullWidth sx={{ mt: 1 }}>Save</Button>
+              <Button type="submit" variant="contained" fullWidth sx={{ mt: 1 }}>{editQuotation ? 'Save Changes' : 'Save'}</Button>
               {editQuotation && (
                 <Button
                   variant="outlined"

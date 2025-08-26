@@ -30,7 +30,11 @@ export default function Dashboard() {
         }, {
           label: 'Quotations',
           href: '/quotations',
-          icon: <ListAltIcon />,
+          icon: <ListAltIcon />, 
+        }, {
+          label: 'Invoices',
+          href: '/invoices',
+          icon: <ListAltIcon />, 
         }].map(btn => (
           <Button
             key={btn.label}
