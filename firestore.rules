@@ -19,5 +19,11 @@ service cloud.firestore {
       // allow updating/deleting your own quotation
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
+
+    // Invoices module rules:
+    match /invoices/{invoiceId} {
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
   }
 }
