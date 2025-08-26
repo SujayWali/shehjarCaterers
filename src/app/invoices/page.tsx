@@ -43,8 +43,11 @@ export default function InvoicesListPage() {
           return;
         }
       }
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  setRows(data.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0)));
+      const data = snap.docs.map(doc => {
+        const d = doc.data();
+        return { id: doc.id, ...d, createdAt: d.createdAt ?? 0 };
+      });
+      setRows(data.sort((a, b) => b.createdAt - a.createdAt));
       setLoading(false);
     }
     fetchInvoices();
@@ -91,11 +94,11 @@ export default function InvoicesListPage() {
             columns={[
               { field: 'billNo', headerName: 'Bill No', flex: 1, minWidth: 120, renderCell: params => <Link href={`/invoices/${params.row.id}/edit`} style={{ textDecoration: 'underline', fontSize: '1rem' }}>{params.value}</Link> },
               { field: 'billDate', headerName: 'Date', flex: 1, minWidth: 100, width: 120 },
-              { field: 'receiver', headerName: 'Receiver', flex: 1, minWidth: 120, valueGetter: params => {
+              { field: 'receiver', headerName: 'Receiver', flex: 1, minWidth: 120, valueGetter: (params: any) => {
                 const r = params.row?.receiver;
                 return r && typeof r === 'object' && r.name ? r.name : '';
               } },
-              { field: 'totalRs', headerName: 'Total', flex: 1, minWidth: 100, align: 'right', headerAlign: 'right', valueFormatter: params => Intl.NumberFormat('en-IN').format(params.row?.totalRs ?? 0) },
+              { field: 'totalRs', headerName: 'Total', flex: 1, minWidth: 100, align: 'right', headerAlign: 'right', valueFormatter: (params: any) => Intl.NumberFormat('en-IN').format(params.row?.totalRs ?? 0) },
               { field: 'docxUrl', headerName: 'DOCX', flex: 0.5, minWidth: 80, renderCell: params => (
                 <Tooltip title="Download DOCX">
                   <span>
