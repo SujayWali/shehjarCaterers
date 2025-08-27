@@ -172,7 +172,7 @@ export function InvoicePdfDocument({ inv }: { inv: Invoice }) {
                      j === 1 ? it.particulars :
                      j === 4 ? (it.period || '') :
                      j === 5 ? (it.rate ?? '') :
-                     j === 6 ? (it.amountRs ?? 0).toFixed(2) :
+                     j === 6 ? Number(it.amountRs ?? 0).toFixed(2) :
                      j === 7 ? (it.ps ?? 0) : ''}
                   </Text>
                 </View>
@@ -193,7 +193,7 @@ export function InvoicePdfDocument({ inv }: { inv: Invoice }) {
               >
                 <Text style={j === 1 ? styles.right : j === 6 || j === 7 ? styles.right : undefined}>
                   {j === 1 ? 'TOTAL' :
-                   j === 6 ? totalAmount.toFixed(2) :
+                   j === 6 ? Number(totalAmount).toFixed(2) :
                    j === 7 ? '0' : ''}
                 </Text>
               </View>
@@ -204,7 +204,7 @@ export function InvoicePdfDocument({ inv }: { inv: Invoice }) {
         {/* ── Footer */}
         <View style={styles.footer}>
           <Text style={styles.amountWords}>{words}</Text>
-          <Text style={styles.amountNum}>{totalAmount.toFixed(2)} Rs. | 0 Ps.</Text>
+          <Text style={styles.amountNum}>{Number(totalAmount).toFixed(2)} Rs. | 0 Ps.</Text>
         </View>
       </Page>
     </Document>
