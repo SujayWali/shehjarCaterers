@@ -171,7 +171,7 @@ export async function generateInvoiceDocx(
           new TableCell({ children: [para(it.period || "")] }),
           new TableCell({ children: [para(it.rate != null ? String(it.rate) : "")] }),
           new TableCell({
-            children: [para((it.amountRs ?? 0).toFixed(2), { align: AlignmentType.RIGHT })],
+            children: [para(Number(it.amountRs ?? 0).toFixed(2), { align: AlignmentType.RIGHT })],
           }),
           new TableCell({ children: [para(String(it.ps ?? 0), { align: AlignmentType.RIGHT })] }),
         ],
@@ -187,7 +187,7 @@ export async function generateInvoiceDocx(
       new TableCell({ children: [para("")] }),
       new TableCell({ children: [para("")] }),
       new TableCell({
-        children: [para(total.toFixed(2), { align: AlignmentType.RIGHT, bold: true })],
+  children: [para(Number(total).toFixed(2), { align: AlignmentType.RIGHT, bold: true })],
       }),
       new TableCell({ children: [para("0", { align: AlignmentType.RIGHT })] }),
     ],
@@ -212,7 +212,7 @@ export async function generateInvoiceDocx(
         children: [
           new TableCell({ children: [para(words, { size: 18 })] }),
           new TableCell({
-            children: [para(`${total.toFixed(2)} Rs. | 0 Ps.`, { align: AlignmentType.RIGHT, size: 18 })],
+            children: [para(`${Number(total).toFixed(2)} Rs. | 0 Ps.`, { align: AlignmentType.RIGHT, size: 18 })],
           }),
         ],
       }),
