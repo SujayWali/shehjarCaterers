@@ -78,12 +78,12 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
                 const newItems = items.map((it, i) => i === idx ? { ...it, rate: e.target.value } : it);
                 setItems(newItems);
               }} sx={{ width: 100 }} />
-              <TextField label="Amount Rs." type="number" value={item.amountRs} onChange={e => {
-                const newItems = items.map((it, i) => i === idx ? { ...it, amountRs: Number(e.target.value) } : it);
-                setItems(newItems);
-              }} sx={{ width: 120 }} />
-              <TextField label="Ps." type="number" value={item.ps || 0} onChange={e => {
-                const newItems = items.map((it, i) => i === idx ? { ...it, ps: Number(e.target.value) } : it);
+                  <TextField label="Amount Rs." type="text" value={item.amountRs === 0 ? '' : (item.amountRs || '')} onChange={e => {
+                    const newItems = items.map((it, i) => i === idx ? { ...it, amountRs: e.target.value } : it);
+                    setItems(newItems);
+                  }} sx={{ width: 120 }} />
+              <TextField label="Ps." type="text" value={item.ps === 0 ? '' : (item.ps || '')} onChange={e => {
+                const newItems = items.map((it, i) => i === idx ? { ...it, ps: e.target.value } : it);
                 setItems(newItems);
               }} sx={{ width: 80 }} />
               <IconButton color="error" onClick={() => {
@@ -98,7 +98,7 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
           <TextField label="Amount in Words" value={invoice.amountInWords || ''} onChange={e => setInvoice({ ...invoice, amountInWords: e.target.value })} fullWidth sx={{ mb: 2 }} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Total Rs." type="number" value={items.reduce((sum, it) => sum + Number(it.amountRs || 0), 0)} onChange={e => setInvoice({ ...invoice, totalRs: Number(e.target.value) })} fullWidth sx={{ mb: 2 }} />
+            <TextField label="Total Rs." type="text" value={invoice.totalRs === 0 ? '' : (invoice.totalRs || '')} onChange={e => setInvoice({ ...invoice, totalRs: e.target.value })} fullWidth sx={{ mb: 2 }} />
         </Grid>
       </Grid>
   <Box display="flex" gap={2} mt={3} flexDirection={{ xs: 'column', sm: 'row' }}>
@@ -112,7 +112,7 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
               receiver: invoice.receiver,
               items,
               amountInWords: invoice.amountInWords,
-              totalRs: items.reduce((sum, it) => sum + Number(it.amountRs || 0), 0),
+              totalRs: invoice.totalRs,
               updatedAt: Date.now(),
             });
             router.push('/invoices');
@@ -121,14 +121,16 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
           } finally {
             setSaving(false);
           }
-        }}>Save</Button>
+        }}>
+          Save
+        </Button>
         <Button variant="outlined" component={Link} href="/invoices">Cancel</Button>
-  {/* WhatsApp action only */}
+        {/* WhatsApp action only */}
         <Tooltip title="Send via WhatsApp">
           <span>
             <IconButton color="success" onClick={() => {
               const phone = '919810421233';
-              const summary = `Invoice: Rs.${items.reduce((sum, it) => sum + Number(it.amountRs || 0), 0)}\nReceiver: ${invoice.receiver?.name || ''}\nBill No: ${invoice.billNo}\nDate: ${invoice.billDate}`;
+              const summary = `Invoice: Rs.${invoice.totalRs || ''}\nReceiver: ${invoice.receiver?.name || ''}\nBill No: ${invoice.billNo}\nDate: ${invoice.billDate}`;
               window.open(`https://wa.me/${phone}?text=${encodeURIComponent(summary)}`, '_blank');
             }}>
               <img src="/logo.png" alt="WA" style={{ width: 24, height: 24 }} />
