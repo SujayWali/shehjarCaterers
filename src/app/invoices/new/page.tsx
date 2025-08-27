@@ -12,7 +12,7 @@ export default function NewInvoicePage() {
   const [receiver, setReceiver] = useState({ name: "", address: "", state: "", mobile: "", gstin: "", pan: "" });
   const [items, setItems] = useState([{ sno: 1, particulars: "", period: "", rate: "", amountRs: 0, ps: 0 }]);
   const [amountInWords, setAmountInWords] = useState("");
-  const [totalRs, setTotalRs] = useState(0);
+  const [totalRs, setTotalRs] = useState(""); // string for controlled input
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState("");
 
@@ -22,10 +22,7 @@ export default function NewInvoicePage() {
   const handleItemChange = (idx: number, field: string, value: any) => {
     const newItems = items.map((item, i) => i === idx ? { ...item, [field]: value } : item);
     setItems(newItems);
-    if (field === "amountRs" || field === "ps") {
-      const total = newItems.reduce((sum, it) => sum + Number(it.amountRs || 0), 0);
-      setTotalRs(total);
-    }
+    // Do not update totalRs automatically
   };
 
   const handleSubmit = async () => {
@@ -39,7 +36,7 @@ export default function NewInvoicePage() {
         receiver,
         items,
         amountInWords,
-        totalRs,
+        totalRs: totalRs !== "" ? Number(totalRs) : undefined,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       };
@@ -96,7 +93,21 @@ export default function NewInvoicePage() {
           <TextField label="Amount in Words" value={amountInWords} onChange={e => setAmountInWords(e.target.value)} fullWidth sx={{ mb: 2 }} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Total Rs." type="number" value={totalRs} onChange={e => setTotalRs(Number(e.target.value))} fullWidth sx={{ mb: 2 }} />
+          <TextField
+            label="Total Rs."
+            type="text"
+            value={totalRs}
+            onChange={e => {
+              // Allow empty string, or valid number
+              const val = e.target.value;
+              if (val === "" || /^\d*$/.test(val)) {
+                setTotalRs(val);
+              }
+            }}
+            fullWidth
+            sx={{ mb: 2 }}
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          />
         </Grid>
       </Grid>
   <Box display="flex" gap={2} mt={3} flexDirection={{ xs: 'column', sm: 'row' }}>
