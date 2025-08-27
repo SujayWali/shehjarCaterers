@@ -98,19 +98,29 @@ export async function generatePdf(base: Omit<MenuDoc, 'id'>) {
   // ────────────────── Cover Page
   {
     const cover = pdfDoc.addPage([PAGE_W, PAGE_H]);
-    let y = TOP;
-
-    // Logo (public/logo.png then public/logo.jpg)
+    // Calculate heights
+    let logoH = 0, logoW = 0;
     const logo = (await tryEmbedImage(pdfDoc, '/logo.jpg')) || (await tryEmbedImage(pdfDoc, '/logo.jpg'));
     if (logo) {
       const maxW = PAGE_W * 0.7;
       const scale = Math.min(1, maxW / logo.width);
-      const w = logo.width * scale;
-      const h = logo.height * scale;
-      cover.drawImage(logo, { x: (PAGE_W - w) / 2, y: y - h, width: w, height: h });
-      y -= h + 12;
+      logoW = logo.width * scale;
+      logoH = logo.height * scale;
     }
+    const spacingLogo = logoH ? 12 : 0;
+    const spacingContact = 24;
+    const spacingTitle = 16;
+    const totalHeight = (logoH ? logoH + spacingLogo : 0)
+      + FS_CONTACT + spacingContact
+      + FS_TITLE + spacingTitle
+      + FS_SUB;
+    let y = PAGE_H * 0.6 + totalHeight / 2;
 
+    // Draw logo
+    if (logo) {
+      cover.drawImage(logo, { x: (PAGE_W - logoW) / 2, y: y - logoH, width: logoW, height: logoH });
+      y -= logoH + spacingLogo;
+    }
     // Contact line
     cover.drawText(CONTACT_LINE, {
       x: (PAGE_W - fontBold.widthOfTextAtSize(CONTACT_LINE, FS_CONTACT)) / 2,
@@ -119,8 +129,7 @@ export async function generatePdf(base: Omit<MenuDoc, 'id'>) {
       font: fontBold,
       color: rgb(0,0,0),
     });
-    y -= FS_CONTACT + 24;
-
+    y -= FS_CONTACT + spacingContact;
     // MENU title
     cover.drawText('MENU', {
       x: (PAGE_W - fontBold.widthOfTextAtSize('MENU', FS_TITLE)) / 2,
@@ -129,8 +138,7 @@ export async function generatePdf(base: Omit<MenuDoc, 'id'>) {
       font: fontBold,
       color: rgb(0,0,0),
     });
-    y -= FS_TITLE + 16;
-
+    y -= FS_TITLE + spacingTitle;
     // Client name
     const client = base.clientName || '';
     cover.drawText(client, {

@@ -74,9 +74,11 @@ export async function generateDocx(base: Omit<MenuDoc, 'id'>) {
     logoPara = new Paragraph({ alignment: AlignmentType.CENTER, children: [logo] });
   }
 
+  // Add a top spacer paragraph for vertical offset
+  const topSpacer = new Paragraph({ spacing: { before: 2000 } });
   const coverChildren = logoPara
-    ? [logoPara, contactLinePara, coverTitle, coverClient]
-    : [contactLinePara, coverTitle, coverClient];
+    ? [topSpacer, logoPara, contactLinePara, coverTitle, coverClient]
+    : [topSpacer, contactLinePara, coverTitle, coverClient];
 
   const coverSection = {
     properties: {
