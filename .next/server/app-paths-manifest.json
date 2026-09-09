@@ -1,14 +1,14 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/api/send-whatsapp/route": "app/api/send-whatsapp/route.js",
+  "/invoices/new/page": "app/invoices/new/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/invoices/[id]/edit/page": "app/invoices/[id]/edit/page.js",
   "/invoices/page": "app/invoices/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/menus/page": "app/menus/page.js",
   "/menus/new/page": "app/menus/new/page.js",
-  "/login/page": "app/login/page.js",
+  "/menus/page": "app/menus/page.js",
   "/quotations/page": "app/quotations/page.js",
-  "/page": "app/page.js",
-  "/invoices/new/page": "app/invoices/new/page.js",
-  "/upload/page": "app/upload/page.js"
+  "/upload/page": "app/upload/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
 }
