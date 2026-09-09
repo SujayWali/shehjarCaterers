@@ -1,1 +1,64 @@
-{}
+{
+  "app/invoices/page.tsx -> @/utils/invoice/generateInvoiceDocx": {
+    "id": 56556,
+    "files": [
+      "static/chunks/9382f781-091b2aba82c36a60.js",
+      "static/chunks/6556.0a455037e7b9c22a.js"
+    ]
+  },
+  "app/invoices/page.tsx -> @/utils/invoice/generateInvoicePdf": {
+    "id": 37748,
+    "files": [
+      "static/chunks/ff804112.fa4058877ae17455.js",
+      "static/chunks/11390db7.db8e0929da9cd9fb.js",
+      "static/chunks/7064611b.e2a0454c8e2c2305.js",
+      "static/chunks/b2d98e07.7b90b8e5a0fa0fa8.js",
+      "static/chunks/188.e05707eae49e2ab7.js",
+      "static/chunks/7608.3ce21481c09bde0a.js",
+      "static/chunks/5558.3f924c8e0d677b76.js"
+    ]
+  },
+  "app/menus/new/page.tsx -> firebase/firestore": {
+    "id": 69842,
+    "files": []
+  },
+  "app/menus/page.tsx -> @/utils/generatePdf": {
+    "id": 74516,
+    "files": [
+      "static/chunks/188.e05707eae49e2ab7.js",
+      "static/chunks/6391.a1d61f16246b4014.js",
+      "static/chunks/4516.07ac18a03b1ecff8.js"
+    ]
+  },
+  "app/quotations/page.tsx -> @/utils/generateQuotationDocx": {
+    "id": 28960,
+    "files": [
+      "static/chunks/9382f781-091b2aba82c36a60.js",
+      "static/chunks/8960.abdde5e1d12bdd06.js"
+    ]
+  },
+  "app/quotations/page.tsx -> @/utils/generateQuotationPdf": {
+    "id": 3734,
+    "files": [
+      "static/chunks/9382f781-091b2aba82c36a60.js",
+      "static/chunks/188.e05707eae49e2ab7.js",
+      "static/chunks/6391.a1d61f16246b4014.js",
+      "static/chunks/3734.7530e7331884f38c.js"
+    ]
+  },
+  "app/upload/page.tsx -> firebase/firestore": {
+    "id": 69842,
+    "files": []
+  },
+  "components/RichTextEditor.tsx -> react-quill": {
+    "id": 98436,
+    "files": [
+      "static/chunks/8012d7e2.770c9c2b40a2f8ff.js",
+      "static/chunks/8436.51a946558830b7a3.js"
+    ]
+  },
+  "utils/invoice/generateInvoicePdf.tsx -> @react-pdf/renderer": {
+    "id": 5092,
+    "files": []
+  }
+}
