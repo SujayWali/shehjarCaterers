@@ -12,9 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Navbar />
-        <AuthGate>
-          {children}
-        </AuthGate>
+        <AuthGate>{children}</AuthGate>
       </body>
     </html>
   );
