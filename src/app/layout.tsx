@@ -1,5 +1,5 @@
-import './globals.css';
 import AuthGate from '@/components/AuthGate';
+import Navbar from '@/components/Navbar';
 
 export const metadata = {
   title: 'Shehjar Caterers',
@@ -7,7 +7,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const Navbar = require('@/components/Navbar').default;
   return (
     <html lang="en">
       <body>
