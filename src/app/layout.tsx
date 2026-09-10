@@ -1,18 +1,21 @@
 import AuthGate from '@/components/AuthGate';
-import Navbar from '@/components/Navbar';
+import Navbar from "@/components/Navbar";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
-export const metadata = {
-  title: 'Shehjar Caterers',
-  description: 'Catering Management Web App',
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <AuthGate>{children}</AuthGate>
+        <AppRouterCacheProvider>
+          <Navbar />
+          {children}
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
 }
+
