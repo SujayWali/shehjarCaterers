@@ -8,13 +8,19 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 export default function Dashboard() {
   return (
     <Box sx={{ p: { xs: 1.5, sm: 3 }, maxWidth: 500, mx: 'auto' }}>
-      <Typography variant="h5" mb={3} textAlign="center">Dashboard</Typography>
+      <Typography
+        variant="h5"
+        sx={{
+          mb: 3,
+          textAlign: "center"
+        }}>Dashboard</Typography>
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        gap={2}
-        alignItems="stretch"
-        justifyContent="center"
-      >
+        sx={{
+          gap: 2,
+          alignItems: "stretch",
+          justifyContent: "center"
+        }}>
         {[{
           label: 'Create New Menu',
           href: '/menus/new',

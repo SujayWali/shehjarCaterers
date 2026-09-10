@@ -91,11 +91,26 @@ export default function MenusPage() {
   };
 
   return (
-    <Stack sx={{ p: 3 }} gap={2}>
+    <Stack
+      sx={{
+        gap: 2,
+        p: 3
+      }}>
       <Typography variant="h5">My Menus</Typography>
       {items.map((it) => (
-        <Stack key={it.id} direction={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" sx={{ border: '1px solid #eee', p: 2, borderRadius: 2 }}>
-          <Typography flex={1}><strong>{it.clientName}</strong></Typography>
+        <Stack
+          key={it.id}
+          direction={{ xs: 'column', sm: 'row' }}
+          sx={{
+            gap: 2,
+            alignItems: "center",
+            border: '1px solid #eee',
+            p: 2,
+            borderRadius: 2
+          }}>
+          <Typography sx={{
+            flex: 1
+          }}><strong>{it.clientName}</strong></Typography>
           {it.docxUrl ? (
             <>
               <MuiLink href={it.docxUrl} target="_blank" rel="noreferrer"><Button>Download DOCX</Button></MuiLink>
@@ -139,15 +154,23 @@ export default function MenusPage() {
               }}>Delete</Button>
             </>
           ) : (
-            <Typography color="text.secondary">File not generated</Typography>
+            <Typography sx={{
+              color: "text.secondary"
+            }}>File not generated</Typography>
           )}
         </Stack>
       ))}
       <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)}>
         <Box sx={{ maxWidth: 350, mx: 'auto', mt: 12, bgcolor: 'background.paper', p: 3, borderRadius: 2, boxShadow: 3 }}>
-          <Typography variant="h6" mb={2} color="error">Delete Menu</Typography>
-          <Typography mb={2}>Are you sure you want to delete <strong>{deleteMenu?.clientName}</strong>?</Typography>
-          <Stack direction="row" gap={2}>
+          <Typography variant="h6" color="error" sx={{
+            mb: 2
+          }}>Delete Menu</Typography>
+          <Typography sx={{
+            mb: 2
+          }}>Are you sure you want to delete <strong>{deleteMenu?.clientName}</strong>?</Typography>
+          <Stack direction="row" sx={{
+            gap: 2
+          }}>
             <Button variant="contained" color="error" onClick={async () => {
               if (!deleteMenu) return;
               await deleteDoc(doc(db, 'menus', deleteMenu.id));
@@ -186,7 +209,9 @@ export default function MenusPage() {
             flexDirection: 'column',
           }}
         >
-          <Typography variant="h6" mb={2}>Edit Menu</Typography>
+          <Typography variant="h6" sx={{
+            mb: 2
+          }}>Edit Menu</Typography>
           <FormProvider {...methods}>
             <form
               onSubmit={methods.handleSubmit(async (data) => {

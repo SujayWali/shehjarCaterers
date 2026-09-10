@@ -17,9 +17,14 @@ async function loadLogo(): Promise<ImageRun | null> {
     if (!res.ok) return null;
     const buf = await res.arrayBuffer();
     return new ImageRun({
+      type: "png",
       data: new Uint8Array(buf),
-      transformation: { width: 600, height: 150 },
+      transformation: {
+        width: 600,
+        height: 150,
+      },
     });
+
   } catch {
     return null;
   }

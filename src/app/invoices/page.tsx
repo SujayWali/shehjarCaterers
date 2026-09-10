@@ -76,16 +76,37 @@ export default function InvoicesListPage() {
   };
 
   return (
-  <Box sx={{ p: { xs: 1, sm: 4 }, maxWidth: 1200, mx: 'auto' }}>
-      <Typography variant="h4" mb={2} textAlign="center">My Invoices</Typography>
-      <Box display="flex" gap={2} mb={2} alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 1, sm: 4 }, maxWidth: 1200, mx: 'auto' }}>
+      <Typography
+        variant="h4"
+        sx={{
+          mb: 2,
+          textAlign: "center"
+        }}>My Invoices</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mb: 2,
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}>
         <TextField label="Search" value={search} onChange={e => setSearch(e.target.value)} sx={{ flex: 1 }} />
         <Button component={Link} href="/invoices/new" variant="contained" color="primary">Create Invoice</Button>
       </Box>
       {loading ? (
-        <Box textAlign="center" mt={6}><CircularProgress /></Box>
+        <Box
+          sx={{
+            textAlign: "center",
+            mt: 6
+          }}><CircularProgress /></Box>
       ) : filteredRows.length === 0 ? (
-        <Typography textAlign="center" color="text.secondary" mt={4}>No invoices found.</Typography>
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "text.secondary",
+            mt: 4
+          }}>No invoices found.</Typography>
       ) : (
         <Box sx={{ width: '100%', overflowX: 'auto', minWidth: { xs: 400, sm: 'auto' } }}>
           <DataGrid
@@ -144,7 +165,12 @@ export default function InvoicesListPage() {
                 </Tooltip>
               ) },
               { field: 'actions', headerName: 'Actions', flex: 1, minWidth: 120, sortable: false, renderCell: params => (
-                <Box display="flex" gap={1} flexDirection={{ xs: 'column', sm: 'row' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    flexDirection: { xs: 'column', sm: 'row' }
+                  }}>
                   <IconButton component={Link} href={`/invoices/${params.row.id}/edit`} color="primary" size="small"><EditIcon /></IconButton>
                   <IconButton color="error" size="small" onClick={() => setDeleteId(params.row.id)}><DeleteIcon /></IconButton>
                 </Box>

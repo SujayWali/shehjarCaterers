@@ -20,7 +20,13 @@ export default function LoginPage() {
   };
 
   return (
-    <Stack alignItems="center" justifyContent="center" sx={{minHeight:'100vh', p:2}}>
+    <Stack
+      sx={{
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight:'100vh',
+        p:2
+      }}>
       <Paper sx={{p:4, width: 360}}>
         <Typography variant="h5" gutterBottom>Shehjar Caterers — Login</Typography>
         <Stack spacing={2}>

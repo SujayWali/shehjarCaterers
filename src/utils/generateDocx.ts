@@ -37,10 +37,11 @@ async function loadLogo(): Promise<ImageRun | null> {
     // A4 size in px at 72 DPI: 595 x 842
     // 120% width, 25% height
     return new ImageRun({
+      type: "png",
       data: new Uint8Array(buf),
       transformation: {
-        width: Math.floor(1.2 * 595),
-        height: Math.floor(0.25 * 842),
+        width: 600,
+        height: 150,
       },
     });
   } catch {

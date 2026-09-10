@@ -11,7 +11,11 @@ export function MenuRowFields() {
       <Typography variant="h6" sx={{ mt: 2 }}>Rows</Typography>
       {fields.map((f, idx) => (
         <Grid container spacing={2} key={f.id} sx={{ mb: 1 }}>
-          <Grid item xs={12} sm={2}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 2
+            }}>
             <Controller
               name={`rows.${idx}.date`}
               control={control}
@@ -26,7 +30,12 @@ export function MenuRowFields() {
                   <TextField
                     label="Date"
                     type="date"
-                    InputLabelProps={{ shrink: true }}
+                    slotProps={{
+                      inputLabel: {
+                        shrink: true,
+                      },
+                    }}
+
                     fullWidth
                     value={inputValue}
                     onChange={e => {
@@ -43,27 +52,52 @@ export function MenuRowFields() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 3
+            }}>
             <Controller name={`rows.${idx}.particulars`} control={control} render={({ field }) => (
               <TextField {...field} label="Particulars" fullWidth />
             )}/>
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 3
+            }}>
             <Controller name={`rows.${idx}.menu`} control={control} render={({ field }) => (
               <TextField {...field} label="Menu" fullWidth multiline minRows={2} />
             )}/>
           </Grid>
-          <Grid item xs={12} sm={2}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 2
+            }}>
             <Controller name={`rows.${idx}.time`} control={control} render={({ field }) => (
               <TextField {...field} label="Time" fullWidth />
             )}/>
           </Grid>
-          <Grid item xs={12} sm={1.5 as any}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 1.5 as any
+            }}>
             <Controller name={`rows.${idx}.numPersons`} control={control} render={({ field }) => (
-              <TextField {...field} type="number" label="No. of persons" fullWidth inputProps={{ min: 0 }} />
-            )}/>
+              <TextField {...field} type="number" label="No. of persons" fullWidth slotProps={{
+                htmlInput: {
+                  min: 0,
+                },
+              }}
+              />
+            )} />
           </Grid>
-          <Grid item xs={12} sm={0.5 as any}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 0.5 as any
+            }}>
             <Button onClick={() => remove(idx)}>Remove</Button>
           </Grid>
         </Grid>

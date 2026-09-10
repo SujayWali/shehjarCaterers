@@ -43,32 +43,90 @@ export default function QuotationsPage() {
   }, []);
 
   return (
-  <Stack sx={{ p: { xs: 1, sm: 3 } }} gap={2}>
+    <Stack
+      sx={{
+        gap: 2,
+        p: { xs: 1, sm: 3 }
+      }}>
       <Typography variant="h5">Quotations</Typography>
       {/* List quotations */}
       {items.map((it) => (
-        <Stack key={it.id} direction={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" sx={{ border: '1px solid #eee', p: { xs: 1, sm: 2 }, borderRadius: 2, mb: 2, overflowX: 'auto' }}>
-          <Box flex={1} sx={{ minWidth: 0 }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+        <Stack
+          key={it.id}
+          direction={{ xs: 'column', sm: 'row' }}
+          sx={{
+            gap: 2,
+            alignItems: "center",
+            border: '1px solid #eee',
+            p: { xs: 1, sm: 2 },
+            borderRadius: 2,
+            mb: 2,
+            overflowX: 'auto'
+          }}>
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0
+            }}>
+            <Stack
+              direction="row"
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                mb: 1
+              }}>
               <Box>
                 <img src="/logo.png" alt="Logo" style={{ height: 32, marginBottom: 4 }} />
-                <Typography variant="body2" fontWeight={600} color="text.secondary" mb={1}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: "text.secondary",
+                    mb: 1
+                  }}>
                   MOBILE: 9810421233, 7018227126, EMAIL: shehjarcaterers@gmail.com
                 </Typography>
               </Box>
-              <Typography variant="body2" fontWeight={600} color="text.secondary" sx={{ minWidth: 120, textAlign: 'right' }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 600,
+                  color: "text.secondary",
+                  minWidth: 120,
+                  textAlign: 'right'
+                }}>
                 DATE: {it.date}
               </Typography>
             </Stack>
-            <Typography variant="h6" align="center" fontWeight={700} mb={1} color="primary">QUOTATION</Typography>
+            <Typography
+              variant="h6"
+              align="center"
+              color="primary"
+              sx={{
+                fontWeight: 700,
+                mb: 1
+              }}>QUOTATION</Typography>
             <Box sx={{ mb: 1 }}>
               <div dangerouslySetInnerHTML={{ __html: it.description }} />
             </Box>
-            <Typography variant="body1" align="center" fontWeight={600} color="success.main" mb={1}>
+            <Typography
+              variant="body1"
+              align="center"
+              sx={{
+                fontWeight: 600,
+                color: "success.main",
+                mb: 1
+              }}>
               Total Estimated Cost = Rs.{it.totalCost}/-
             </Typography>
           </Box>
-          <Stack direction={{ xs: 'row', sm: 'column' }} gap={1} sx={{ flexWrap: { xs: 'wrap', sm: 'nowrap' }, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+          <Stack
+            direction={{ xs: 'row', sm: 'column' }}
+            sx={{
+              gap: 1,
+              flexWrap: { xs: 'wrap', sm: 'nowrap' },
+              justifyContent: { xs: 'center', sm: 'flex-start' }
+            }}>
             <Button variant="contained" onClick={async () => {
               const { generateQuotationDocx } = await import('@/utils/generateQuotationDocx');
               const base = {
@@ -139,7 +197,9 @@ export default function QuotationsPage() {
             flexDirection: 'column',
           }}
         >
-          <Typography variant="h6" mb={2}>{editQuotation ? 'Edit Quotation' : 'Add Quotation'}</Typography>
+          <Typography variant="h6" sx={{
+            mb: 2
+          }}>{editQuotation ? 'Edit Quotation' : 'Add Quotation'}</Typography>
           <FormProvider {...methods}>
             <form
               onSubmit={methods.handleSubmit(async (data) => {
@@ -174,7 +234,12 @@ export default function QuotationsPage() {
                       {...field}
                       label="Date"
                       type="date"
-                      InputLabelProps={{ shrink: true }}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+
                       sx={{ mb: 2 }}
                       fullWidth
                     />
